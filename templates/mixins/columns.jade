@@ -32,6 +32,8 @@ mixin column(list, col, item)
 			+column_link(value, 'mailto:' + value)
 		else if col.type == 'boolean'
 			+column_boolean(value)
+		else if col.type == 'url' && col.field.options.format
+			+column_html(value)
 		else if col.type == 'url'
 			+column_link(value, value, true)
 		else if col.type == 'color'

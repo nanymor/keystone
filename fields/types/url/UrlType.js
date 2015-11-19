@@ -24,6 +24,10 @@ url.prototype.addFilterToQuery = TextType.prototype.addFilterToQuery;
  */
 url.prototype.format = function(item) {
 	var url = (item.get(this.path) || '');
+	if (this.hasFormatter()) {
+		var url = item.get(this.path);
+		return this.options.format.call(this, item, url);
+	}
 	return this._formatUrl(url);
 };
 
@@ -33,6 +37,17 @@ url.prototype.format = function(item) {
 function removeProtocolPrefix(url) {
 	return url.replace(/^[a-zA-Z]+\:\/\//, '');
 }
+
+/**
+ * Detects whether the field has formatter function
+ *
+ * @api public
+ */
+
+url.prototype.hasFormatter = function() {
+	return 'function' === typeof this.options.format;
+};
+
 
 // TODO: Proper url validation
 
